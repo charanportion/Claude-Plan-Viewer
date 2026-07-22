@@ -1,5 +1,9 @@
 # Claude Plan Viewer
 
+[![CI](https://github.com/charanportion/Claude-Plan-Viewer/actions/workflows/ci.yml/badge.svg)](https://github.com/charanportion/Claude-Plan-Viewer/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 **A visual approval gate for Claude Code plans.** Claude writes its plan to `.claude/plan.json`, this VSCode extension renders it as an interactive panel — and Claude Code **pauses until you click Approve**. Click *Request changes* instead, type your feedback, and Claude revises the plan and waits again.
 
 ```mermaid
@@ -159,6 +163,12 @@ Add these to your `.gitignore` — they're session artifacts:
 │   └── plan.example.json      # sample plan matching the schema
 └── package.json
 ```
+
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Because this project runs code on users' machines (a VSCode extension plus a bash hook that gates an AI agent), all changes land through reviewed pull requests, CI must pass, and a maintainer must approve. Please also read the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+Found a security issue? **Do not open a public issue** — follow [SECURITY.md](SECURITY.md).
 
 ## License
 

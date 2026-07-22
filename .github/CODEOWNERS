@@ -1,0 +1,12 @@
+# These owners are automatically requested for review on every PR,
+# and — with branch protection enabled — their approval is REQUIRED to merge.
+# This is the core of the "nothing untrusted merges" guarantee.
+
+*                       @charanportion
+
+# Extra-sensitive paths (same owner today; listed explicitly so the intent
+# is clear and so adding co-maintainers later is a one-line change).
+/src/                   @charanportion
+/media/                 @charanportion
+/claude-setup/          @charanportion
+/.github/workflows/     @charanportion

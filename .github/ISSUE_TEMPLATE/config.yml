@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/charanportion/Claude-Plan-Viewer/security/advisories/new
+    about: Do NOT open a public issue for security problems. Report privately here.
+  - name: 💬 Questions & discussion
+    url: https://github.com/charanportion/Claude-Plan-Viewer/discussions
+    about: Ask questions or share ideas (enable Discussions in repo settings to use this).

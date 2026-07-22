@@ -1,0 +1,57 @@
+name: 🐛 Bug report
+description: Something isn't working as expected
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! For **security** issues, stop here and follow [SECURITY.md](https://github.com/charanportion/Claude-Plan-Viewer/blob/main/SECURITY.md) instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Wired hooks into project ...
+        2. Asked Claude to make a plan ...
+        3. Clicked Approve ...
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which component?
+      options:
+        - VSCode extension (the panel)
+        - Claude Code hook (wait-plan-approval.sh)
+        - Setup / docs
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: macOS 15 / Ubuntu 24.04 / Windows 11 (WSL)
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: VSCode & extension version
+      placeholder: VSCode 1.90, extension 0.0.1
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Output from the "Claude Plan Viewer" output channel, or the hook's behavior. This will be automatically formatted, no backticks needed.
+      render: shell

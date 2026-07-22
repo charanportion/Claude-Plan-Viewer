@@ -1,0 +1,53 @@
+name: CI
+
+# Runs on pushes to main and on every PR. For PRs from forks, GitHub grants
+# only a read-only GITHUB_TOKEN and withholds repository secrets — so untrusted
+# contributions are built and checked but can never act with write access.
+# Do NOT switch this to `pull_request_target`; that would run fork code with a
+# privileged token and defeats the whole security model.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least privilege: this workflow only needs to read the repo.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check & compile
+        run: npm run compile
+
+      - name: Lint hook script
+        run: shellcheck claude-setup/*.sh
+
+      - name: Package extension
+        run: npx --yes @vscode/vsce package --allow-missing-repository --skip-license --out claude-plan-viewer-ci.vsix
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-plan-viewer-vsix
+          path: claude-plan-viewer-ci.vsix
+          if-no-files-found: error
