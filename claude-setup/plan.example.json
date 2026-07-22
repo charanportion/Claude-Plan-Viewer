@@ -1,0 +1,21 @@
+{
+  "summary": "Add dark-mode toggle to the settings page",
+  "files": [
+    { "path": "src/settings/SettingsPage.tsx", "action": "modify", "why": "add the toggle UI" },
+    { "path": "src/theme/useTheme.ts", "action": "create", "why": "hook that persists the chosen theme" },
+    { "path": "src/theme/legacy-theme.css", "action": "delete", "why": "superseded by CSS variables" }
+  ],
+  "steps": [
+    { "id": "1", "title": "Create useTheme hook with localStorage persistence", "file": "src/theme/useTheme.ts" },
+    { "id": "2", "title": "Add toggle switch to settings page", "file": "src/settings/SettingsPage.tsx" },
+    { "id": "3", "title": "Remove legacy theme stylesheet", "file": "src/theme/legacy-theme.css" }
+  ],
+  "risks": [
+    "Assumes no other component imports legacy-theme.css",
+    "System-theme detection not covered — manual toggle only"
+  ],
+  "out_of_scope": [
+    "Per-component theme overrides",
+    "High-contrast accessibility theme"
+  ]
+}

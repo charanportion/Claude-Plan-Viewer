@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/wait-plan-approval.sh\"",
+            "timeout": 3600,
+            "statusMessage": "Waiting for plan approval in Plan Viewer…"
+          }
+        ]
+      },
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"MANDATORY: Before doing anything else, use the Write tool to overwrite .claude/plan.json with a JSON object describing the plan that was just approved. Schema: summary (string); files (array of objects with keys path, action, why — action is one of create, modify, delete); steps (array of objects with keys id, title, file); risks (array of strings); out_of_scope (array of strings). After writing it, proceed with implementation.\"}}'",
+            "statusMessage": "Requiring plan.json write"
+          }
+        ]
+      }
+    ]
+  }
+}

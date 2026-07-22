@@ -1,0 +1,30 @@
+{
+  "name": "claude-plan-viewer",
+  "displayName": "Claude Plan Viewer",
+  "version": "0.0.1",
+  "description": "Visual approval gate for Claude Code plans — review plan.json in a panel and Claude waits until you click Approve",
+  "publisher": "srictechie",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["AI", "Visualization", "Other"],
+  "keywords": ["claude", "claude-code", "plan", "approval", "ai", "agent", "human-in-the-loop"],
+  "main": "./out/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [{
+      "command": "claudePlanViewer.open",
+      "title": "Claude: Open Plan Viewer"
+    }]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --allow-missing-repository --skip-license"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  },
+  "repository": { "type": "git", "url": "https://github.com/charanportion/Claude-Plan-Viewer" }
+}
