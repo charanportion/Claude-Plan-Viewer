@@ -2,16 +2,15 @@
 
 **A visual approval gate for Claude Code plans.** Claude writes its plan to `.claude/plan.json`, this VSCode extension renders it as an interactive panel — and Claude Code **pauses until you click Approve**. Click *Request changes* instead, type your feedback, and Claude revises the plan and waits again.
 
-```
-Claude presents a plan ──▶ plan.json written ──▶ Claude Code PAUSES
-                                                       │
-                              Plan Viewer panel opens  │
-                                                       ▼
-                    ┌── you click "Approve & build" ──▶ Claude implements
-                    │
-                    └── you click "Request changes" ──▶ your feedback goes back
-                        (with a feedback input box)     to Claude ─▶ revised plan
-                                                        ─▶ gate re-arms
+```mermaid
+flowchart TD
+    A["Claude presents a plan"] --> B[".claude/plan.json written"]
+    B --> C["Claude Code PAUSES<br/>(blocking hook)"]
+    B --> D["Plan Viewer panel opens"]
+    D -- "Approve & build" --> E["Claude implements ✅"]
+    D -- "Request changes<br/>(+ your feedback)" --> F["Feedback injected<br/>back to Claude"]
+    F --> G["Claude revises the plan"]
+    G --> B
 ```
 
 ## Why
@@ -35,6 +34,31 @@ Three pieces cooperate:
 3. **A second hook + a CLAUDE.md rule** make sure Claude actually writes `plan.json` every time it presents a plan (the hook covers plan mode deterministically; the CLAUDE.md rule covers plans presented as plain text).
 
 No servers, no APIs — the two sides communicate through two small JSON files in `.claude/`.
+
+```mermaid
+sequenceDiagram
+    participant C as Claude Code
+    participant H as Hook<br/>(wait-plan-approval.sh)
+    participant V as Plan Viewer<br/>(VSCode extension)
+    participant U as You
+
+    C->>C: writes .claude/plan.json
+    C->>H: PostToolUse hook fires (turn blocked)
+    H->>H: delete stale plan-approval.json, poll for a new one
+    V->>U: panel opens with the rendered plan
+    alt Approve & build
+        U->>V: click Approve
+        V->>H: plan-approval.json { status: approved }
+        H->>C: "user approved — proceed"
+    else Request changes
+        U->>V: click Request changes + type feedback
+        V->>H: plan-approval.json { status: changes_requested, feedback }
+        H->>C: "do NOT implement — revise the plan"
+        C->>C: rewrites plan.json → gate re-arms
+    else No response within 1 hour
+        H->>C: "stop and ask the user"
+    end
+```
 
 ## Installation
 
